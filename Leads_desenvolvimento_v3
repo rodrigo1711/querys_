@@ -1,0 +1,38 @@
+SELECT
+
+CPFCNPJ as 'cpf_cnpj', 
+lead_no as 'Código Lead',
+date_format(vtiger_crmentity.createdtime, "%d/%m/%Y %H:%i") AS 'Data da criação',
+-- date_format(c.createdtime,'%d/%m/%Y') AS 'Data da criação',
+-- vtiger_crmentity.createdtime AS 'Data da criação',
+
+pot.company as  'Empresa',
+leadsource as 'Fonte',
+etapa_atual_lead as 'Estágio Lead',
+leadstatus as 'Status Lead',
+date_format(data_do_ultimo_agendamento, "%d/%m/%Y %H:%i") as 'Data Último Agendamento',
+vtiger_crmentity.smcreatorid AS 'Id_Resp_ult_agend', 
+vtiger_crmentity.smownerid AS 'Id_Resp_Criação',
+vtiger_users.userlabel as "db_users.userlabel",
+vtiger_crmentity.smownerid AS 'Id_Resp_crm', -- revisar
+-- potcf.cf_2905 
+potcf.cf_2905 as 'Campanha',
+
+users2.first_name "db_users.userlabel.1", 
+date_format(vtiger_crmentity.createdtime, "%Y") as "Ano",
+date_format(vtiger_crmentity.createdtime, "%m") as "Mês"
+-- vtiger_crmentity.modifiedtime as "ano" 
+
+
+
+
+FROM vtiger_leaddetails pot
+
+LEFT JOIN vtiger_leadscf potcf ON pot.leadid = potcf.leadid
+LEFT JOIN vtiger_crmentity ON pot.leadid = vtiger_crmentity.crmid
+LEFT JOIN vtiger_users users2 ON vtiger_crmentity.smcreatorid = users2.id
+LEFT JOIN vtiger_users on vtiger_crmentity.smownerid = vtiger_users.id
+-- where lead_no = "LEA10062"
+where
+pot.cpfcnpj is not null and pot.cpfcnpj <> "" and pot.cpfcnpj > 1
+and vtiger_crmentity.createdtime between '2026-11-01' and '2026-11-08' -- sempre colocar um dia depois
