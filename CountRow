@@ -1,0 +1,4 @@
+ROW_NUMBER() OVER (ORDER BY vtiger_accountscf.cf_2490 DESC) AS Sequencia,
+ROW_NUMBER() OVER (ORDER BY --seu campo de ordenação
+DESC -- ou asc
+) AS Sequencia,
